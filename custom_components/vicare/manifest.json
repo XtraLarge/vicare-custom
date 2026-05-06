@@ -1,0 +1,24 @@
+{
+  "domain": "vicare",
+  "name": "Viessmann ViCare (fork with error sensors)",
+  "codeowners": [
+    "@CFenner",
+    "@lackas"
+  ],
+  "config_flow": true,
+  "dhcp": [
+    {
+      "macaddress": "B87424*"
+    }
+  ],
+  "documentation": "https://www.home-assistant.io/integrations/vicare",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "loggers": [
+    "PyViCare"
+  ],
+  "requirements": [
+    "PyViCare==2.60.1"
+  ],
+  "version": "2026.5.1"
+}
