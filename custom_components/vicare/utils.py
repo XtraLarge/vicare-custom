@@ -44,6 +44,14 @@ def login(
     return vicare_api
 
 
+def get_device_errors(device: PyViCareDevice) -> list[Any]:
+    """Return device errors, empty list if the feature is not currently supported."""
+    try:
+        return device.getDeviceErrors() or []
+    except PyViCareNotSupportedFeatureError:
+        return []
+
+
 def get_device_serial(device: PyViCareDevice) -> str | None:
     """Get device serial for device if supported."""
     try:

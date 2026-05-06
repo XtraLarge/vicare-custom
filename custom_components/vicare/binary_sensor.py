@@ -27,6 +27,7 @@ from .utils import (
     get_burners,
     get_circuits,
     get_compressors,
+    get_device_errors,
     get_device_serial,
     is_supported,
 )
@@ -109,7 +110,7 @@ GLOBAL_SENSORS: tuple[ViCareBinarySensorEntityDescription, ...] = (
     ViCareBinarySensorEntityDescription(
         key="device_error",
         device_class=BinarySensorDeviceClass.PROBLEM,
-        value_getter=lambda api: len(api.getDeviceErrors() or []) > 0,
+        value_getter=lambda api: len(get_device_errors(api)) > 0,
     ),
     ViCareBinarySensorEntityDescription(
         key="identification_mode",

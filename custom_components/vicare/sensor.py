@@ -55,6 +55,7 @@ from .utils import (
     get_circuits,
     get_compressors,
     get_condensers,
+    get_device_errors,
     get_device_serial,
     get_evaporators,
     get_inverters,
@@ -1262,7 +1263,7 @@ GLOBAL_SENSORS: tuple[ViCareSensorEntityDescription, ...] = (
     ViCareSensorEntityDescription(
         key="error_count",
         translation_key="error_count",
-        value_getter=lambda api: len(api.getDeviceErrors() or []),
+        value_getter=lambda api: len(get_device_errors(api)),
         state_class=SensorStateClass.MEASUREMENT,
         entity_registry_enabled_default=False,
         entity_category=EntityCategory.DIAGNOSTIC,
@@ -1270,7 +1271,7 @@ GLOBAL_SENSORS: tuple[ViCareSensorEntityDescription, ...] = (
     ViCareSensorEntityDescription(
         key="latest_error_code",
         translation_key="latest_error_code",
-        value_getter=lambda api: next(iter(api.getDeviceErrors() or []), {}).get(
+        value_getter=lambda api: next(iter(get_device_errors(api)), {}).get(
             "errorCode"
         ),
         entity_registry_enabled_default=False,
@@ -1279,7 +1280,7 @@ GLOBAL_SENSORS: tuple[ViCareSensorEntityDescription, ...] = (
     ViCareSensorEntityDescription(
         key="latest_error_message",
         translation_key="latest_error_message",
-        value_getter=lambda api: next(iter(api.getDeviceErrors() or []), {}).get(
+        value_getter=lambda api: next(iter(get_device_errors(api)), {}).get(
             "message"
         ),
         entity_registry_enabled_default=False,
