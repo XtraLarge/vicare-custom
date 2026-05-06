@@ -109,7 +109,7 @@ GLOBAL_SENSORS: tuple[ViCareBinarySensorEntityDescription, ...] = (
     ViCareBinarySensorEntityDescription(
         key="device_error",
         device_class=BinarySensorDeviceClass.PROBLEM,
-        value_getter=lambda api: len(api.getDeviceErrors()) > 0,
+        value_getter=lambda api: len(api.getDeviceErrors() or []) > 0,
     ),
     ViCareBinarySensorEntityDescription(
         key="identification_mode",
