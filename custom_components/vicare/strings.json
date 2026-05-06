@@ -328,7 +328,7 @@
         "name": "DHW electricity consumption last seven days"
       },
       "error_count": {
-        "name": "Error count"
+        "name": "Active error count"
       },
       "ess_charge_total": {
         "name": "Battery charge total"
@@ -482,11 +482,11 @@
       "inverter_temperature": {
         "name": "Inverter temperature"
       },
-      "latest_error_code": {
-        "name": "Latest error code"
+      "active_error_code": {
+        "name": "Active error code"
       },
-      "latest_error_message": {
-        "name": "Latest error message"
+      "active_error_message": {
+        "name": "Active error message"
       },
       "liquid_gas_temperature": {
         "name": "Liquid gas temperature"

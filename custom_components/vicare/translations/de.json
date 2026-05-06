@@ -328,7 +328,7 @@
         "name": "WW-Stromverbrauch letzte 7 Tage"
       },
       "error_count": {
-        "name": "Anzahl Störungen"
+        "name": "Aktive Störungsanzahl"
       },
       "ess_charge_total": {
         "name": "Batterie Gesamtladung"
@@ -482,11 +482,11 @@
       "inverter_temperature": {
         "name": "Wechselrichtertemperatur"
       },
-      "latest_error_code": {
-        "name": "Letzter Fehlercode"
+      "active_error_code": {
+        "name": "Aktiver Fehlercode"
       },
-      "latest_error_message": {
-        "name": "Letzte Störungsmeldung"
+      "active_error_message": {
+        "name": "Aktive Störungsmeldung"
       },
       "liquid_gas_temperature": {
         "name": "Flüssiggastemperatur"
