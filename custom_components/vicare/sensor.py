@@ -1260,14 +1260,9 @@ GLOBAL_SENSORS: tuple[ViCareSensorEntityDescription, ...] = (
         value_getter=lambda api: api.getExhaustVolumeFlow(),
         state_class=SensorStateClass.MEASUREMENT,
     ),
-    ViCareSensorEntityDescription(
-        key="error_count",
-        translation_key="error_count",
-        value_getter=lambda api: len(get_device_errors(api)),
-        state_class=SensorStateClass.MEASUREMENT,
-        entity_registry_enabled_default=False,
-        entity_category=EntityCategory.DIAGNOSTIC,
-    ),
+)
+
+ERROR_SENSORS: tuple[ViCareSensorEntityDescription, ...] = (
     ViCareSensorEntityDescription(
         key="active_error_code",
         translation_key="active_error_code",
@@ -1516,8 +1511,9 @@ def _build_entities(
 
     entities: list[ViCareSensor] = []
     for device in device_list:
+        device_entities: list[ViCareSensor] = []
         # add device entities
-        entities.extend(
+        device_entities.extend(
             ViCareSensor(
                 description,
                 get_device_serial(device.api),
@@ -1536,7 +1532,7 @@ def _build_entities(
             (get_evaporators(device.api), EVAPORATOR_SENSORS),
             (get_inverters(device.api), INVERTER_SENSORS),
         ):
-            entities.extend(
+            device_entities.extend(
                 ViCareSensor(
                     description,
                     get_device_serial(device.api),
@@ -1548,6 +1544,18 @@ def _build_entities(
                 for description in entity_description_list
                 if is_supported(description.key, description.value_getter, component)
             )
+        # add error sensors only for devices that have other supported entities
+        if device_entities:
+            device_entities.extend(
+                ViCareSensor(
+                    description,
+                    get_device_serial(device.api),
+                    device.config,
+                    device.api,
+                )
+                for description in ERROR_SENSORS
+            )
+        entities.extend(device_entities)
     return entities
 
 

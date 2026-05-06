@@ -327,9 +327,6 @@
       "energy_summary_dhw_consumption_heating_lastsevendays": {
         "name": "WW-Stromverbrauch letzte 7 Tage"
       },
-      "error_count": {
-        "name": "Aktive Störungsanzahl"
-      },
       "ess_charge_total": {
         "name": "Batterie Gesamtladung"
       },

@@ -108,11 +108,6 @@ GLOBAL_SENSORS: tuple[ViCareBinarySensorEntityDescription, ...] = (
         value_getter=lambda api: api.getOneTimeCharge(),
     ),
     ViCareBinarySensorEntityDescription(
-        key="device_error",
-        device_class=BinarySensorDeviceClass.PROBLEM,
-        value_getter=lambda api: len(get_device_errors(api)) > 0,
-    ),
-    ViCareBinarySensorEntityDescription(
         key="identification_mode",
         translation_key="identification_mode",
         entity_category=EntityCategory.DIAGNOSTIC,
@@ -145,6 +140,14 @@ GLOBAL_SENSORS: tuple[ViCareBinarySensorEntityDescription, ...] = (
     ),
 )
 
+ERROR_BINARY_SENSORS: tuple[ViCareBinarySensorEntityDescription, ...] = (
+    ViCareBinarySensorEntityDescription(
+        key="device_error",
+        device_class=BinarySensorDeviceClass.PROBLEM,
+        value_getter=lambda api: len(get_device_errors(api)) > 0,
+    ),
+)
+
 
 def _build_entities(
     device_list: list[ViCareDevice],
@@ -153,8 +156,9 @@ def _build_entities(
 
     entities: list[ViCareBinarySensor] = []
     for device in device_list:
+        device_entities: list[ViCareBinarySensor] = []
         # add device entities
-        entities.extend(
+        device_entities.extend(
             ViCareBinarySensor(
                 description,
                 get_device_serial(device.api),
@@ -170,7 +174,7 @@ def _build_entities(
             (get_burners(device.api), BURNER_SENSORS),
             (get_compressors(device.api), COMPRESSOR_SENSORS),
         ):
-            entities.extend(
+            device_entities.extend(
                 ViCareBinarySensor(
                     description,
                     get_device_serial(device.api),
@@ -182,6 +186,18 @@ def _build_entities(
                 for description in entity_description_list
                 if is_supported(description.key, description.value_getter, component)
             )
+        # add error sensors only for devices that have other supported entities
+        if device_entities:
+            device_entities.extend(
+                ViCareBinarySensor(
+                    description,
+                    get_device_serial(device.api),
+                    device.config,
+                    device.api,
+                )
+                for description in ERROR_BINARY_SENSORS
+            )
+        entities.extend(device_entities)
     return entities
 
 

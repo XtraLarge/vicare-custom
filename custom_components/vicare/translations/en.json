@@ -327,9 +327,6 @@
       "energy_summary_dhw_consumption_heating_lastsevendays": {
         "name": "DHW electricity consumption last seven days"
       },
-      "error_count": {
-        "name": "Active error count"
-      },
       "ess_charge_total": {
         "name": "Battery charge total"
       },
